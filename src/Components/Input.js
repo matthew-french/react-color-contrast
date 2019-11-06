@@ -13,7 +13,7 @@ const Input = () => {
       <button
         type="button"
         onClick={() => {
-          dispatch({type: 'addSwatchShade', color: input.current.value});
+          dispatch({type: 'addSwatchShade', colorSet: input.current.value});
         }}>
         Add New Swatch
       </button>

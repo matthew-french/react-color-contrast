@@ -6,7 +6,6 @@ import Palette from './Palette';
 import Input from './Input';
 import Selected from './Atoms/Selected';
 import convert from 'color-convert';
-
 import '../styles.css';
 
 export const App = () => {
@@ -22,19 +21,36 @@ export const App = () => {
       },
     },
   };
-  const blankSet = _blankSet;
 
   const convertColor = hexCode => {
-    let base = convert.hex.lab(hexCode);
-    let values = Object.assign({}, blankSet);
+    const base = convert.hex.lab(hexCode);
+    const values = {..._blankSet}; //This is my issue!!!!
     Object.keys(values).map(Weight => {
       let currentSet = values[Weight];
       currentSet.lab = [currentSet.lab[0], base[1], base[2]];
       currentSet.hex = convert.lab.hex(currentSet.lab);
       currentSet.rgb = convert.lab.rgb(currentSet.lab);
+      console.log('set as: ', currentSet);
       return currentSet;
     });
+    debugger;
     return values;
+  };
+
+  const addColorSet = (colors, colorSet) => {
+    const keys = Object.keys(colors);
+    keys.push(colorSet);
+    const values = convertColor(colorSet);
+    const newColors = {};
+    keys.map(key => {
+      if (key === colorSet) {
+        return (newColors[key] = values);
+      } else {
+        return (newColors[key] = colors[key]);
+      }
+    });
+    console.log('injected as: ', newColors);
+    return newColors;
   };
 
   const removeColorSet = (colors, colorSet) => {
@@ -62,12 +78,10 @@ export const App = () => {
           },
         };
       case 'addSwatchShade':
-        const newColorSet = {[action.color]: convertColor(action.color)};
-        const colorState = state.colors;
-        let combined = {...colorState, ...newColorSet};
-        console.log('NewColor:', newColorSet, ' colorState:', colorState);
-        console.log(combined);
-        return {...state, colors: combined};
+        return {
+          ...state,
+          colors: addColorSet(state.colors, action.colorSet),
+        };
       case 'removeColorSet':
         return {
           ...state,

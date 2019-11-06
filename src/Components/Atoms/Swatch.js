@@ -2,6 +2,7 @@ import React from 'react';
 
 const Swatch = props => {
   const key = `${props.values.Palette}-${props.values.Weight}`;
+  const handleChange = () => {};
 
   return (
     <div className="radio" style={{backgroundColor: `#${props.values.hex}`}}>
