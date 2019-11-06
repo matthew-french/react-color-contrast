@@ -23,17 +23,18 @@ export const App = () => {
   };
 
   const convertColor = hexCode => {
-    const base = convert.hex.lab(hexCode);
-    const values = {..._blankSet}; //This is my issue!!!!
-    Object.keys(values).map(Weight => {
-      let currentSet = values[Weight];
-      currentSet.lab = [currentSet.lab[0], base[1], base[2]];
-      currentSet.hex = convert.lab.hex(currentSet.lab);
-      currentSet.rgb = convert.lab.rgb(currentSet.lab);
-      console.log('set as: ', currentSet);
-      return currentSet;
+    const colorSet = convert.hex.lab(hexCode);
+    let values = {}; //This is my issue!!!!
+    Object.keys(_blankSet).map(Weight => {
+      const l = _blankSet[Weight].lab[0];
+      const getLab = [l, colorSet[1], colorSet[2]];
+      const currentSet = {
+        lab: getLab,
+        rgb: convert.lab.rgb(getLab),
+        hex: convert.lab.hex(getLab),
+      };
+      return (values[Weight] = currentSet);
     });
-    debugger;
     return values;
   };
 
