@@ -4,8 +4,8 @@
 }
 
 .palette {
-  display: flex;
-  flex-flow: column nowrap;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
 }
 
 .palette button {

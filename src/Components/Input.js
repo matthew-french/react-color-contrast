@@ -14,6 +14,7 @@ const Input = () => {
         type="button"
         onClick={() => {
           dispatch({type: 'addSwatchShade', colorSet: input.current.value});
+          input.current.value = '';
         }}>
         Add New Swatch
       </button>

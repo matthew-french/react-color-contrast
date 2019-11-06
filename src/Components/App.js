@@ -19,6 +19,7 @@ export const App = () => {
         rgb: [100, 100, 100],
         lab: [100, 0, 0],
       },
+      MaxContrast: 1,
     },
   };
 
@@ -50,7 +51,6 @@ export const App = () => {
         return (newColors[key] = colors[key]);
       }
     });
-    console.log('injected as: ', newColors);
     return newColors;
   };
 
@@ -75,8 +75,14 @@ export const App = () => {
           selected: {
             Palette: action.Palette,
             Weight: action.Weight,
-            Values: action.values,
+            Values: action.Values,
+            MaxContrast: 1,
           },
+        };
+      case 'maxContrast':
+        return {
+          ...state,
+          selected: {...state.selected, MaxContrast: action.Contrast},
         };
       case 'addSwatchShade':
         return {

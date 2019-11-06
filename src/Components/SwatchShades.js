@@ -7,19 +7,26 @@ const SwatchShades = props => {
   const [{colors, selected}, dispatch] = useStateValue();
   const Weights = Object.keys(colors[props.Palette]);
   return (
-    <div className="SwatchShades">
+    <>
       {Weights.map(value => {
         const Palette = props.Palette;
-        let Weight = Number(value);
+        const Weight = Number(value);
+        let colorHex = colors[Palette][Weight].hex;
         let Contrast =
-          Math.round(
-            hex(colors[Palette][Weight].hex, selected.Values.hex) * 100
-          ) / 100;
+          Math.round(hex(colorHex, selected.Values.hex) * 100) / 100;
+        const selectedContrast = selected.MaxContrast;
+
+        if (
+          props.Palette === selected.Palette &&
+          props.Weight === selected.Weight
+        ) {
+          return selected.MaxContrast;
+        }
         let colorCodes = colors[Palette][Weight];
         let Values = {
           Palette: Palette,
           Weight: Weight,
-          ...colorCodes,
+          Values: {...colorCodes},
         };
         return (
           <Swatch
@@ -36,7 +43,7 @@ const SwatchShades = props => {
         }>
         Delete Swatch
       </button>
-    </div>
+    </>
   );
 };
 
